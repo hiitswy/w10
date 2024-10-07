@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 600,
+  "title": "Number of short-term visitors arriving to different state in July 2024",
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/hiitswy/3179/refs/heads/main/w9homework/ne_10m_admin_1_states_provinces.topojson",
+    "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.name",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/hiitswy/3179/refs/heads/main/w9homework/visitors_each_state_combined.csv"
+        },
+        "key": "State",
+        "fields": ["2019", "2020", "2021", "2022", "2023", "2024"]
+      }
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "white"},
+  "encoding": {
+    "color": {
+      "field": "2024",
+      "type": "quantitative",
+      "scale": {"type": "log", "scheme": "blues"}
+    },
+    "tooltip": [
+      {"field": "properties.name", "type": "nominal", "title": "State"},
+      {
+        "field": "2024",
+        "type": "quantitative",
+        "title": "Visitors in 2024",
+        "format": ",.0f"
+      }
+    ]
+  },
+  "config": {}
+}
